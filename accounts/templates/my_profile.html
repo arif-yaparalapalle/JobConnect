@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | JobConnect</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 30px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .profile-card p {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        .profile-card strong {
+            color: #2563eb;
+        }
+        .back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>My Profile</h1>
+
+        <div class="profile-card">
+
+            <p><strong>First Name:</strong> {{ request.user.first_name }}</p>
+
+            <p><strong>Last Name:</strong> {{ request.user.last_name }}</p>
+
+            <p><strong>Username:</strong> {{ request.user.username }}</p>
+
+            <p><strong>Email:</strong> {{ request.user.email }}</p>
+
+        </div>
+        <a href="{% url 'dashboard' %}" class="back-btn">
+    Back to Dashboard
+</a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Job - JobConnect</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fc;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563eb;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 120px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Job</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Job Title</label>
+        <input type="text" name="title" value="{{ job.title }}" required>
+
+        <label>Company Name</label>
+        <input type="text" name="company_name" value="{{ job.company_name }}" required>
+
+        <label>Location</label>
+        <input type="text" name="location" value="{{ job.location }}" required>
+
+        <label>Job Type</label>
+        <select name="job_type" required>
+            <option value="Full Time" {% if job.job_type == 'Full Time' %}selected{% endif %}>Full Time</option>
+            <option value="Part Time" {% if job.job_type == 'Part Time' %}selected{% endif %}>Part Time</option>
+            <option value="Internship" {% if job.job_type == 'Internship' %}selected{% endif %}>Internship</option>
+        </select>
+
+        <label>Salary</label>
+        <input type="text" name="salary" value="{{ job.salary }}" required>
+
+        <label>Job Description</label>
+        <textarea name="description" required>{{ job.description }}</textarea>
+
+        <button type="submit">Update Job</button>
+
+    </form>
+
+    <a href="{% url 'my_posted_jobs' %}" class="back-btn">
+        Back to My Posted Jobs
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Available Jobs | JobConnect</title>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                background: #f4f7fb;
+                padding: 40px 20px;
+            }
+
+            .container {
+                max-width: 1000px;
+                margin: auto;
+            }
+
+            h1 {
+                text-align: center;
+                color: #2563eb;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                text-align: center;
+                color: #666;
+                margin-bottom: 30px;
+            }
+
+            .job-card {
+                background: white;
+                padding: 25px;
+                margin-bottom: 20px;
+                border-radius: 10px;
+                box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            }
+
+            .job-card h2 {
+                color: #2563eb;
+                margin-bottom: 12px;
+            }
+
+            .job-card p {
+                margin-bottom: 10px;
+                color: #444;
+                line-height: 1.5;
+            }
+
+            .no-jobs {
+                text-align: center;
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                color: #666;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <h1>Available Jobs</h1>
+            <p class="subtitle">Find your dream job with JobConnect</p>
+            <form method="GET" style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap;">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search Job Title"
+            value="{{ search|default:'' }}"
+            style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px;"
+        >
+
+        <input
+            type="text"
+            name="location"
+            placeholder="Enter Location"
+            value="{{ location|default:'' }}"
+            style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px;"
+        >
+
+        <select name="job_type" style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px;">
+
+            <option value="">All Job Types</option>
+
+            <option value="Full Time" {% if job_type == 'Full Time' %}selected{% endif %}>Full Time</option>
+
+            <option value="Part Time" {% if job_type == 'Part Time' %}selected{% endif %}>Part Time</option>
+
+            <option value="Internship" {% if job_type == 'Internship' %}selected{% endif %}>Internship</option>
+
+        </select>
+
+        <button type="submit" style="padding: 12px 25px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer;">
+            Search
+        </button>
+
+    </form>
+            {% if messages %}
+        {% for message in messages %}
+            <div style="padding: 12px; margin-bottom: 20px; text-align: center; background: #d4edda; color: #155724; border-radius: 6px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+            {% for job in jobs %}
+
+                <div class="job-card">
+
+                    <h2>{{ job.title }}</h2>
+
+                    <p><strong>Company:</strong> {{ job.company_name }}</p>
+
+                    <p><strong>Location:</strong> {{ job.location }}</p>
+
+                    <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+
+                    <p><strong>Salary:</strong> {{ job.salary }}</p>
+
+                    <p><strong>Description:</strong> {{ job.description }}</p>
+
+                    <p><strong>Posted Date:</strong> {{ job.posted_at|date:"d M Y" }}</p>
+                    <form method="POST" action="{% url 'apply_job' job.id %}">
+        {% csrf_token %}
+
+        <button type="submit" style="display: inline-block; padding: 12px 25px; background: #2563eb; color: white; border: none; border-radius: 6px; margin-top: 10px; cursor: pointer;">
+            Apply Now
+        </button>
+    </form>
+                </div>
+
+    {% empty %}
+
+        <div class="no-jobs">
+
+            {% if search or location or job_type %}
+
+                <h3>No Jobs Match Your Search!</h3>
+                <p>Try different search keywords or filters.</p>
+
+            {% else %}
+
+                <h3>No Jobs Available Currently!</h3>
+                <p>Please check again later.</p>
+
+                {% endif %}
+
+            </div>
+        {% endfor %}
+
+        </body>
+        </html>
